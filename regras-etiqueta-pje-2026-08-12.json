@@ -1,0 +1,424 @@
+{
+  "tipo": "pje-mapeador-regras-etiqueta",
+  "version": 1,
+  "exportadoEm": "2026-08-12T14:01:13.117Z",
+  "etiquetaRegras": [
+    {
+      "ativo": true,
+      "etiqueta": "DILIGÊNCIA",
+      "id": "mqm1cyp7",
+      "pipeline": [
+        {
+          "modo": "lote",
+          "proximaTarefa": "Escolher tipo",
+          "transicao": "Atos de comunicação"
+        },
+        {
+          "modo": "individual",
+          "proximaTarefa": "",
+          "transicao": "Preparar comunicação"
+        }
+      ],
+      "simular": false,
+      "tarefaDestino": "",
+      "tarefaFinal": "",
+      "tarefaInicial": "Analisar determinação"
+    },
+    {
+      "ativo": true,
+      "etiqueta": "CLS",
+      "id": "mqpmdfgy",
+      "pipeline": [
+        {
+          "modo": "lote",
+          "proximaTarefa": "Verificar pendências",
+          "transicao": "Nada mais a cumprir"
+        }
+      ],
+      "tarefaDestino": "",
+      "tarefaFinal": "",
+      "tarefaInicial": "Analisar determinação"
+    },
+    {
+      "ativo": true,
+      "etiqueta": "Intimação PRE",
+      "id": "mquc96wd",
+      "pipeline": [
+        {
+          "modo": "individual",
+          "proximaTarefa": "",
+          "transicao": "Preparar comunicação"
+        }
+      ],
+      "simular": false,
+      "tarefaDestino": "",
+      "tarefaFinal": "",
+      "tarefaInicial": "Analisar determinação"
+    },
+    {
+      "ativo": true,
+      "etiqueta": "TRÂNSITO EM JULGADO",
+      "id": "mribbdd0",
+      "pipeline": [
+        {
+          "modo": "lote",
+          "proximaTarefa": "Verificar Pendências",
+          "transicao": "Nada mais a cumprir"
+        },
+        {
+          "modo": "lote",
+          "proximaTarefa": "",
+          "transicao": "Registrar trânsito em julgado"
+        }
+      ],
+      "simular": false,
+      "tarefaDestino": "",
+      "tarefaFinal": "",
+      "tarefaInicial": "Analisar determinação"
+    },
+    {
+      "ativo": true,
+      "etiqueta": "PJE - TESTE",
+      "id": "mrvgq1jz",
+      "pipeline": [
+        {
+          "modo": "lote",
+          "proximaTarefa": "Escolher tipo",
+          "transicao": "Atos de comunicação"
+        },
+        {
+          "modo": "individual",
+          "proximaTarefa": "",
+          "transicao": "Preparar comunicação"
+        }
+      ],
+      "simular": false,
+      "tarefaDestino": "",
+      "tarefaFinal": "",
+      "tarefaInicial": "Analisar Processos"
+    },
+    {
+      "ativo": true,
+      "etiqueta": "IMPUGNAÇÃO",
+      "id": "msghhgbi",
+      "pipeline": [
+        {
+          "modo": "lote",
+          "proximaTarefa": "",
+          "transicao": "Preparar Comunicação"
+        }
+      ],
+      "simular": false,
+      "tarefaDestino": "",
+      "tarefaFinal": "",
+      "tarefaInicial": "Analisar determinação"
+    },
+    {
+      "ativo": true,
+      "etiqueta": "EQ7 - RRC - Diligência",
+      "id": "msoprd9b",
+      "pipeline": [
+        {
+          "modo": "lote",
+          "proximaTarefa": "",
+          "transicao": "Publicar Processos"
+        }
+      ],
+      "simular": false,
+      "tarefaDestino": "",
+      "tarefaFinal": "",
+      "tarefaInicial": "Analisar Processos"
+    },
+    {
+      "ativo": true,
+      "etiqueta": "EQ7 - RRC - OK",
+      "id": "msopuqtq",
+      "pipeline": [
+        {
+          "modo": "lote",
+          "proximaTarefa": "",
+          "transicao": "Aguardando providências"
+        }
+      ],
+      "simular": false,
+      "tarefaDestino": "",
+      "tarefaFinal": "",
+      "tarefaInicial": "Analisar Processos"
+    }
+  ],
+  "removerEtiquetaRegras": [
+    {
+      "ativo": true,
+      "etiqueta": "DILIGÊNCIA",
+      "id": "mqmulevk",
+      "tarefa": "Analisar determinação"
+    }
+  ],
+  "prepComunicacaoRegras": [
+    {
+      "ativo": true,
+      "comunicacao": "Citação",
+      "etiqueta": "DILIGÊNCIA",
+      "id": "mqm15gdf",
+      "instrumento": "DP",
+      "meio": "Diário Eletrônico",
+      "modeloDocumento": "",
+      "poloAtivo": true,
+      "poloPassivo": true,
+      "polos": {
+        "ativo": {
+          "comunicacao": "Citação",
+          "meio": "Diário Eletrônico",
+          "prazo": "3",
+          "tipoPrazo": "dias"
+        },
+        "passivo": {
+          "comunicacao": "Intimação",
+          "meio": "Mural",
+          "prazo": "1",
+          "tipoPrazo": "dias"
+        },
+        "terceiros": {
+          "comunicacao": "Comunicação",
+          "meio": "Sistema",
+          "prazo": "2",
+          "tipoPrazo": "dias"
+        }
+      },
+      "prazo": "3",
+      "tarefa": "Preparar comunicação",
+      "terceiros": true,
+      "tipoDocumento": "Decisão",
+      "tipoPrazo": "dias"
+    },
+    {
+      "ativo": false,
+      "comunicacao": "Intimação",
+      "etiqueta": "Intimação PRE",
+      "id": "mqri4703",
+      "instrumento": "DP",
+      "meio": "Diário Eletrônico",
+      "modeloDocumento": "",
+      "poloAtivo": true,
+      "poloPassivo": false,
+      "polos": {
+        "ativo": {
+          "comunicacao": "Intimação",
+          "meio": "Diário Eletrônico",
+          "prazo": "3",
+          "tipoPrazo": "dias"
+        },
+        "terceiros": {
+          "comunicacao": "Intimação",
+          "meio": "Sistema",
+          "prazo": "3",
+          "tipoPrazo": "dias"
+        }
+      },
+      "prazo": "3",
+      "tarefa": "Preparar comunicação",
+      "terceiros": true,
+      "tipoDocumento": "Decisão",
+      "tipoPrazo": "dias"
+    },
+    {
+      "ativo": true,
+      "comunicacao": "Intimação",
+      "etiqueta": "Intimação PRE",
+      "id": "mrxwkr2t",
+      "instrumento": "DN",
+      "meio": "Sistema",
+      "modeloDocumento": "CoPPEx - SePP - PropPart - Vista PRE",
+      "poloAtivo": false,
+      "poloPassivo": false,
+      "polos": {
+        "terceiros": {
+          "comunicacao": "Intimação",
+          "meio": "Sistema",
+          "prazo": "2",
+          "tipoPrazo": "dias"
+        }
+      },
+      "prazo": "2",
+      "tarefa": "Preparar comunicação",
+      "terceiros": true,
+      "tipoDocumento": "",
+      "tipoPrazo": "dias"
+    },
+    {
+      "ativo": true,
+      "comunicacao": "Intimação",
+      "etiqueta": "PJE - TESTE",
+      "id": "mry4tfjc",
+      "instrumento": "DN",
+      "meio": "Diário Eletrônico",
+      "modeloDocumento": "CPRO - Pub - ABV - PRE embargos",
+      "poloAtivo": true,
+      "poloPassivo": false,
+      "polos": {
+        "ativo": {
+          "comunicacao": "Intimação",
+          "meio": "Diário Eletrônico",
+          "prazo": "3",
+          "tipoPrazo": "dias"
+        },
+        "terceiros": {
+          "comunicacao": "Intimação",
+          "meio": "Sistema",
+          "prazo": "3",
+          "tipoPrazo": "dias"
+        }
+      },
+      "prazo": "3",
+      "tarefa": "Preparar comunicação",
+      "terceiros": true,
+      "tipoDocumento": "",
+      "tipoPrazo": "dias"
+    },
+    {
+      "ativo": true,
+      "comunicacao": "Intimação",
+      "etiqueta": "IMPUGNAÇÃO",
+      "id": "msgherao",
+      "instrumento": "DP",
+      "meio": "Mural",
+      "modeloDocumento": "",
+      "poloAtivo": true,
+      "poloPassivo": false,
+      "polos": {
+        "ativo": {
+          "comunicacao": "Intimação",
+          "meio": "Mural",
+          "prazo": "7",
+          "tipoPrazo": "data certa"
+        }
+      },
+      "prazo": "7",
+      "tarefa": "Preparar comunicação",
+      "terceiros": false,
+      "tipoDocumento": "Decisão",
+      "tipoPrazo": "data certa"
+    }
+  ],
+  "vincularEtiquetaRegras": [
+    {
+      "ativo": false,
+      "etiqueta": "DILIGÊNCIA",
+      "etiquetas": [
+        "DILIGÊNCIA",
+        "REDISTRIBUIR ANTES DE CLS"
+      ],
+      "id": "mqohg1h5",
+      "tarefa": "Analisar determinação"
+    },
+    {
+      "ativo": false,
+      "etiqueta": "TESTE",
+      "etiquetas": [
+        "TESTE"
+      ],
+      "id": "mqoi2axd",
+      "tarefa": "Analisar determinação"
+    },
+    {
+      "ativo": false,
+      "etiqueta": "CLS",
+      "etiquetas": [
+        "CLS"
+      ],
+      "id": "mqpmfjcw",
+      "tarefa": "Analisar determinação"
+    },
+    {
+      "ativo": false,
+      "etiqueta": "DILIGÊNCIA",
+      "etiquetas": [
+        "DILIGÊNCIA",
+        "Intimação PRE"
+      ],
+      "id": "mqri4l94",
+      "tarefa": "Analisar determinação"
+    },
+    {
+      "ativo": false,
+      "etiqueta": "Intimação PRE",
+      "etiquetas": [
+        "Intimação PRE"
+      ],
+      "id": "mqrj3c0r",
+      "tarefa": "Preparar comunicação"
+    },
+    {
+      "ativo": false,
+      "etiqueta": "TRÂNSITO EM JULGADO",
+      "etiquetas": [
+        "TRÂNSITO EM JULGADO"
+      ],
+      "id": "mri880wb",
+      "tarefa": ""
+    },
+    {
+      "ativo": false,
+      "etiqueta": "DILIGÊNCIA",
+      "etiquetas": [
+        "DILIGÊNCIA"
+      ],
+      "id": "mrsa6vr0",
+      "tarefa": ""
+    },
+    {
+      "ativo": false,
+      "etiqueta": "PJE - TESTE",
+      "etiquetas": [
+        "PJE - TESTE"
+      ],
+      "id": "mrvgp5ub",
+      "tarefa": ""
+    },
+    {
+      "ativo": true,
+      "etiqueta": "EQ7 - Analisar Documentos Novos",
+      "etiquetas": [
+        "EQ7 - Analisar Documentos Novos"
+      ],
+      "id": "msnqr6fx",
+      "tarefa": ""
+    },
+    {
+      "ativo": true,
+      "etiqueta": "EQ7 - Alterar CAND",
+      "etiquetas": [
+        "EQ7 - Alterar CAND"
+      ],
+      "id": "msnqrsp1",
+      "tarefa": ""
+    },
+    {
+      "ativo": true,
+      "etiqueta": "EQ7 - Retificar autuação",
+      "etiquetas": [
+        "EQ7 - Retificar autuação"
+      ],
+      "id": "msnqs2nd",
+      "tarefa": ""
+    },
+    {
+      "ativo": true,
+      "etiqueta": "EQ7 - RRC - Diligência",
+      "etiquetas": [
+        "EQ7 - RRC - Diligência"
+      ],
+      "id": "msnqsc1l",
+      "tarefa": ""
+    },
+    {
+      "ativo": true,
+      "etiqueta": "EQ7 - RRC - OK",
+      "etiquetas": [
+        "EQ7 - RRC - OK"
+      ],
+      "id": "msnqsjs1",
+      "tarefa": ""
+    }
+  ]
+}

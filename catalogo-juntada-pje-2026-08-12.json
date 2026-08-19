@@ -1,0 +1,319 @@
+{
+  "tipo": "pje-mapeador-catalogo-juntada",
+  "version": 1,
+  "exportadoEm": "2026-08-12T14:01:19.217Z",
+  "modelos": [
+    {
+      "materia": "CoPPEx - Propaganda",
+      "fase": "Composição",
+      "nome": "CoPPEx - SePP - Certidão de Composição",
+      "descricao": "Composição Partidária...."
+    },
+    {
+      "materia": "CoPPEx - Propaganda",
+      "fase": "Instrução",
+      "nome": "CoPPEx - SePP - Prop - Cumpr parte final Art. 17",
+      "descricao": "Cumprimento parte final Art.17"
+    },
+    {
+      "materia": "CoPPEx - Propaganda",
+      "fase": "Instrução",
+      "nome": "CoPPEx - SePP - PropPart - Cumpr. Art. 17",
+      "descricao": "Cumprimento Art. 17"
+    },
+    {
+      "materia": "CoPPEx - Propaganda",
+      "fase": "Instrução",
+      "nome": "CoPPEx - SePP - Suspensão de anotação",
+      "descricao": "Suspensão de anotação partidária"
+    },
+    {
+      "materia": "CoPPEx - Propaganda",
+      "fase": "Decisões PET",
+      "nome": "CoPPEx - SePP - PropPart - Cumprimento Decisão PET",
+      "descricao": "Cumprimento de Decisão em PET"
+    },
+    {
+      "materia": "CoPPEx - Propaganda",
+      "fase": "Decisões PET",
+      "nome": "CoPPEx - SePP - PropPart - Juntada Decisão PET",
+      "descricao": "Juntada de Decisão em PET"
+    },
+    {
+      "materia": "CoPPEx - Propaganda",
+      "fase": "Decisões PET",
+      "nome": "CoPPEx - SePP - PropPart - Publicação Decisão PET",
+      "descricao": "Publicação de Decisão em PET"
+    },
+    {
+      "materia": "CoPPEx - Propaganda",
+      "fase": "Outros",
+      "nome": "CoPPEx - SePP - PropPart - Reclassificação",
+      "descricao": "Reclassificação de documentos"
+    },
+    {
+      "materia": "CoPPEx - Propaganda",
+      "fase": "Outros",
+      "nome": "CoPPEx - SePP - Publicação",
+      "descricao": "Publicação DJE: Decisão"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "CAND",
+      "nome": "RCAND - Cert - Inexistência divergência cadastro",
+      "descricao": "Inexistência de  Divergência com o Cadastro Eleitoral"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "CAND",
+      "nome": "RCAND - Juntada Relatório Divergências",
+      "descricao": "Relatório de Divergências do Cadastro Eleitoral"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "Contestação",
+      "nome": "RCAND - Cert - Decurso prz para defesa",
+      "descricao": "Decurso de prazo para contestação à impugnação"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "Impugnação",
+      "nome": "RCAND - Cert - Decurso prz para impugnação",
+      "descricao": "Decurso de prazo para impugnação"
+    },
+    {
+      "materia": "",
+      "fase": "",
+      "nome": "RCAND",
+      "descricao": "TESTE"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "Balcão",
+      "nome": "RCAND - Balcão - Declaração de homonímia",
+      "descricao": "Declaração de homonímia"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "CAND",
+      "nome": "RCAND - Cert - Altera dados CAND cf doc",
+      "descricao": "Alteração de dados no CAND"
+    },
+    {
+      "materia": "",
+      "fase": "CAND",
+      "nome": "RCAND - Cert - CPF alterado",
+      "descricao": "Alteração de CPF"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "Conferência final",
+      "nome": "RCAND - Cert - Dado ñ alterado antes do julgamento",
+      "descricao": "Alteração de dados no CAND"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "Contestação",
+      "nome": "RCAND - Cert - Decurso prz para contrarrazões",
+      "descricao": "Decurso de prazo para contrarrazões"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "Diligências",
+      "nome": "RCAND - Cert - Decurso prz para diligências",
+      "descricao": "Decurso de prazo para cumprimento de diligência"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "Balcão",
+      "nome": "RCAND - Cert. Declaração Alfabetização",
+      "descricao": "Prova de escolaridade"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "Contestação",
+      "nome": "RCAND - Cert - Decurso prz para parecer PRE",
+      "descricao": "Decurso de prazo para parecer da PRE"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "Contestação",
+      "nome": "RCAND - Cert - Decurso pzo para réplica",
+      "descricao": "Decurso de prazo para réplica"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "Notícia de inelegibilidade",
+      "nome": "RCAND - Cert - Email p/ PRE - notícia",
+      "descricao": "Notícia de inelegibilidade encaminhada à PRE"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "Autuação",
+      "nome": "RCAND - Cert - Inclusão adv + alteração CAND",
+      "descricao": "Atualização da autuação"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "Outros",
+      "nome": "RCAND - Cert - Indisponibilidade PJe",
+      "descricao": "Indisponibilidade PJe"
+    },
+    {
+      "materia": "",
+      "fase": "CAND",
+      "nome": "RCAND - Cert - Inexistência divergência cadastro",
+      "descricao": "Inexistência de divergência no cadastro nacional de eleitores"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Julgamento DRAP",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Julgamento no CAND",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Não alteração dado - ELO fechado",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Não alteração foto",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Não importação declaração de bens",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Não inclusão advogados",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Não julgamento CAND pós-fechamento",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Petição não assinada por advogado",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Petição subscrita adv s/ procuração",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Pub - ABV Impugnante",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Pub - Defesa",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Pub - Desp/Decisão + Int PRE",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Pub - Desp/Decisão + Julg Cand",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "Diligências",
+      "nome": "RCAND - Cert - Pub - Diligências",
+      "descricao": "Mural Eletrônico - Diligência"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Pub - Edital de Candidatos",
+      "descricao": "Publicação de Edital"
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Recurso repres partido s/ procur",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Registro de Diligência no CAND",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert - Req. troca de nome ou nº pós julg.",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Cert. Acesso CANDex",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Inclusão de advogado (Procuração/substab)",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Inclusão Impug. e adv. e alteração CAND",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Inclusão Impug. s/ proc. e alteração CAND",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Inclusão Impugnação no CAND",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "",
+      "nome": "RCAND - Juntada Doc extraído de RCAND diverso",
+      "descricao": ""
+    },
+    {
+      "materia": "Registro de Candidatura",
+      "fase": "Autuação",
+      "nome": "RCAND - Cert. inclusão de adv - habilitação aut",
+      "descricao": "Revisão de autuação inclusão de advogado"
+    }
+  ]
+}

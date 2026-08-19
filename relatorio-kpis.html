@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Relatório de KPIs — PJe Mapeador</title>
+<style>
+ body{margin:0;font:13px/1.5 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1f2937;background:#eef1f4}
+ .top{background:#1a5276;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px}
+ .top h1{margin:0;font-size:16px;flex:1}
+ .top .meta{font-size:11px;color:rgba(255,255,255,.75)}
+ .btn{border:0.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;border-radius:7px;padding:6px 11px;font-size:12px;cursor:pointer}
+ .wrap{max-width:760px;margin:16px auto;padding:0 16px}
+ .sec{background:#fff;border:0.5px solid #d1d5db;border-radius:10px;padding:14px 16px;margin-bottom:14px}
+ .sect{font-size:11px;font-weight:700;color:#6c3483;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+ .cards{display:flex;gap:10px;flex-wrap:wrap}
+ .card{flex:1;min-width:130px;border:0.5px solid #e5e7eb;border-radius:9px;padding:11px 13px;background:#fafbfc}
+ .cn{font-size:24px;font-weight:700}.cl{font-size:11px;color:#6b7280;margin-top:2px}
+ .brow{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+ .bnm{width:230px;min-width:230px;font-size:12px;color:#374151;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .btr{flex:1;background:#eef1f4;border-radius:4px;height:14px}.bfl{height:14px;border-radius:4px}
+ .bvl{width:34px;text-align:right;font-weight:700;font-size:12px}
+ .don{width:96px;height:96px;border-radius:50%;position:relative;flex-shrink:0}
+ .don::after{content:"";position:absolute;inset:22px;border-radius:50%;background:#fff}
+ .lg{display:flex;align-items:center;gap:6px;font-size:12px;color:#374151;margin-bottom:4px}
+ .dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+ .pill{font-size:11px;padding:2px 8px;border-radius:10px}
+ .vazio,.vazio2{color:#9ca3af;font-size:12px;padding:10px 0}
+</style></head>
+<body>
+ <div class="top"><h1>Relatório de KPIs</h1><span class="meta" id="meta"></span><button class="btn" id="bAtualizar">Atualizar</button><button class="btn" id="bCsv">Copiar CSV</button></div>
+ <div class="wrap"><div id="conteudo"></div></div>
+ <script src="relatorio-kpis.js"></script>
+</body></html>

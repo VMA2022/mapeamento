@@ -1,0 +1,118 @@
+{
+  "manifest_version": 3,
+  "name": "PJe - Mapeador de Tarefas",
+  "version": "6.11",
+  "description": "Botao flutuante no PJe que abre um painel em tela cheia com o mapeamento completo das tarefas e processos.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "downloads",
+    "tabs",
+    "webNavigation",
+    "alarms",
+    "management"
+  ],
+  "host_permissions": [
+    "https://pje.tre-sp.jus.br/*",
+    "https://pje-frontend.tse.jus.br/*",
+    "https://*.pje.jus.br/*",
+    "https://*.tse.jus.br/*",
+    "http://pje2g-tc-sp.tse.jus.br/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "PJe Mapeador de Tarefas"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://pje.tre-sp.jus.br/*",
+        "https://pje-frontend.tse.jus.br/*",
+        "https://*.pje.jus.br/*",
+        "https://*.tse.jus.br/*"
+      ],
+      "js": [
+        "data-juntada.js",
+        "content/selectors.js",
+        "content/classes-eleitorais.js",
+        "content/mapper.js",
+        "content/coletor-api.js",
+        "content/coletor-expedientes.js",
+        "content/fullscreen-overlay.js",
+        "content/floating-button.js",
+        "content/auto-open.js",
+        "content/etiqueta-movimentador.js",
+        "content/preparar-comunicacao.js",
+        "content/agendamento-executor.js"
+      ],
+      "css": [
+        "content/floating-button.css"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "https://pje.tre-sp.jus.br/*",
+        "https://*.pje.jus.br/*",
+        "https://*.tse.jus.br/*"
+      ],
+      "js": [
+        "data-juntada.js",
+        "content/selectors.js",
+        "content/classes-eleitorais.js",
+        "content/juntada.js",
+        "content/juntada-autos.js",
+        "content/autos-acoes.js",
+        "content/classe-autos.js",
+        "content/tabela-autos.js",
+        "content/marco-etiquetador.js",
+        "content/coletor-localizacao.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "https://pje.tre-sp.jus.br/*",
+        "https://pje-frontend.tse.jus.br/*",
+        "https://*.pje.jus.br/*",
+        "https://*.tse.jus.br/*"
+      ],
+      "js": [
+        "content/ajax-monitor.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true,
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://pje.tre-sp.jus.br/*",
+        "https://pje-frontend.tse.jus.br/*",
+        "https://*.pje.jus.br/*",
+        "https://*.tse.jus.br/*"
+      ],
+      "js": [
+        "content/autos-open-bridge.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true,
+      "world": "MAIN"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

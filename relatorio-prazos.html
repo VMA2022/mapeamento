@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Prazos PJe — Mapeador</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font:13px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:#1f2937;background:#eef1f4}
+  .hdr{background:#1a5276;color:#fff;padding:12px 20px;display:flex;align-items:center;gap:12px}
+  .hdr h1{margin:0;font-size:16px;font-weight:500}
+  .hdr .meta{margin-left:auto;font-size:12px;opacity:.85}
+  .wrap{max-width:1500px;margin:0 auto;padding:16px 20px 40px}
+  .kpis{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .kpi{flex:1;min-width:130px;background:#fff;border:1px solid #e5eaef;border-radius:9px;padding:10px 14px}
+  .kpi .n{font-size:22px;font-weight:600;line-height:1.2}
+  .kpi .l{font-size:12px;color:#6b7280;margin-top:2px}
+  .k-venc{border-left:3px solid #dc2626}.k-venc .n{color:#a32d2d}
+  .k-hoje,.k-breve{border-left:3px solid #f59e0b}.k-hoje .n,.k-breve .n{color:#854f0b}
+  .k-ok{border-left:3px solid #1d9e75}.k-ok .n{color:#0f6e56}
+  .filtros{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;background:#fff;border:1px solid #e5eaef;border-radius:9px;padding:12px 14px;margin-bottom:12px}
+  .field{display:flex;flex-direction:column}
+  .field label{font-size:11px;color:#6b7280;margin-bottom:4px}
+  input,select{border:1px solid #c9d3db;border-radius:7px;padding:6px 9px;font-size:12.5px;background:#fff;color:#1f2937}
+  input:focus,select:focus{outline:2px solid #a9c4e4;outline-offset:0}
+  .btn{border:1px solid #c9d3db;background:#fff;color:#28527a;border-radius:7px;padding:6px 12px;font-size:12.5px;cursor:pointer}
+  .btn.primary{background:#1a5276;border-color:#154360;color:#fff;font-weight:500}
+  .tg{border:1px solid #c9d3db;background:#fff;color:#5f6b76;padding:6px 12px;font-size:12.5px;cursor:pointer}
+  .tg:first-child{border-radius:7px 0 0 7px}.tg:last-child{border-radius:0 7px 7px 0;border-left:0}
+  .tg.act{background:#6c3483;border-color:#5b2c6f;color:#fff;font-weight:500}
+  .metarow{display:flex;align-items:center;gap:12px;margin:0 2px 8px;font-size:12px;color:#6b7280}
+  .metarow .nota{margin-left:auto;color:#9ca3af}
+  .card{background:#fff;border:1px solid #e5eaef;border-radius:9px;overflow:auto}
+  table{width:100%;border-collapse:collapse}
+  th{font-size:11.5px;color:#5f6b76;font-weight:500;text-align:left;padding:9px 10px;background:#f7f9fb;border-bottom:1px solid #e5eaef;white-space:nowrap;cursor:pointer;user-select:none}
+  th.nosort{cursor:default}
+  td{font-size:12.5px;padding:8px 10px;border-bottom:1px solid #f0f2f5;vertical-align:top}
+  tr:hover td{background:#fbfcfd}
+  .pill{font-size:10.5px;padding:2px 8px;border-radius:10px;font-weight:500;white-space:nowrap;display:inline-block}
+  .s-venc{background:#fceaea;color:#a32d2d}.s-hoje,.s-breve{background:#faeeda;color:#854f0b}.s-ok{background:#e1f5ee;color:#0f6e56}
+  .b-pend{background:#f3f4f6;color:#4b5563}.b-pje{background:#eaf2fb;color:#28527a}.b-dest{background:#f5eef8;color:#6c3483}
+  .prazo-venc{color:#a32d2d;font-weight:500}.prazo-hoje,.prazo-breve{color:#854f0b;font-weight:500}.prazo-ok{color:#0f6e56;font-weight:500}
+  .exp{color:#6c3483;cursor:pointer;user-select:none;white-space:nowrap}
+  .lnk{border:1px solid #c9d3db;background:#fff;color:#28527a;border-radius:6px;padding:2px 8px;font-size:11.5px;cursor:pointer}
+  .sub{background:#fafbfc;padding:6px 10px 10px 22px}
+  .sub .sh{display:flex;font-size:10.5px;color:#8b949e;font-weight:500;padding:3px 0}
+  .sub .sr{display:flex;font-size:11.5px;color:#4b5563;padding:4px 0;border-top:1px solid #eef1f4}
+  .sub .c1{flex:1;min-width:0;padding-right:10px;word-break:break-word}
+  .sub .c2{width:130px}.sub .c3{width:100px}.sub .c4{width:100px}.sub .c5{width:104px}
+  .pag{display:flex;gap:6px;align-items:center;justify-content:center;margin-top:14px;font-size:12.5px;color:#6b7280}
+  .pag button{border:1px solid #c9d3db;background:#fff;color:#28527a;border-radius:6px;padding:4px 10px;cursor:pointer}
+  .pag button[disabled]{opacity:.45;cursor:default}
+  .vazio{padding:34px;text-align:center;color:#6b7280}
+</style>
+</head>
+<body>
+  <div class="hdr">
+    <h1>Prazos PJe</h1>
+    <span class="meta" id="meta">carregando…</span>
+  </div>
+  <div class="wrap">
+    <div class="kpis" id="kpis"></div>
+    <div id="fbanner"></div>
+    <div class="filtros">
+      <div class="field"><label>Visão</label><div><button id="vProc" class="tg act">Por processo</button><button id="vExp" class="tg">Por expediente</button></div></div>
+      <div class="field" style="flex:2;min-width:190px"><label for="fq">Buscar</label><input id="fq" placeholder="CNJ, destinatário…"></div>
+      <div class="field"><label for="fStatus">Status</label><select id="fStatus"></select></div>
+      <div class="field"><label for="fMeio">Meio</label><select id="fMeio"></select></div>
+      <div class="field"><label for="fClasse">Classe</label><select id="fClasse"></select></div>
+      <div class="field"><label for="fPrazo">Prazo</label><select id="fPrazo">
+        <option value="">Todos os prazos</option><option value="vencido">Vencidos</option><option value="hoje">Vence hoje</option><option value="breve">Próximos 3 dias</option><option value="futuro">No prazo</option><option value="ciencia">Pendente de ciência</option><option value="semprazo">Sem data</option>
+      </select></div>
+      <div class="field"><label for="fCriDe">Criação — de</label><input type="date" id="fCriDe"></div>
+      <div class="field"><label for="fCriAte">Criação — até</label><input type="date" id="fCriAte"></div>
+      <div class="field"><label>&nbsp;</label><label style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:#9a4b0a;border:1px solid #e8c79b;background:#fdf0e3;border-radius:7px;padding:6px 10px;cursor:pointer"><input type="checkbox" id="fAlerta"> Só com pendente sem ciência <span id="nAlerta" style="font-weight:500"></span></label></div>
+      <div class="field"><label for="fPer">Por página</label><select id="fPer"><option value="25">25</option><option value="50" selected>50</option><option value="100">100</option><option value="99999">Todos</option></select></div>
+      <div class="field"><label>&nbsp;</label><button id="bLimpar" class="btn">Limpar</button></div>
+      <div class="field"><label>&nbsp;</label><button id="bCsv" class="btn primary">Exportar CSV</button></div>
+    </div>
+    <div class="metarow"><span id="count"></span><span class="nota" id="nota"></span></div>
+    <div class="card"><table><thead><tr id="hrow"></tr></thead><tbody id="tbody"></tbody></table></div>
+    <div class="pag" id="pag"></div>
+  </div>
+  <script src="relatorio-prazos.js"></script>
+</body>
+</html>

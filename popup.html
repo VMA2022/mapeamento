@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PJe Mapeador de Tarefas</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 380px;
+      min-height: 200px;
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+      font-size: 13px;
+      background: #f5f7fa;
+      color: #333;
+    }
+
+    header {
+      background: #1a5276;
+      color: white;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    header .logo { font-size: 20px; }
+    header h1 { font-size: 14px; font-weight: 600; line-height: 1.3; }
+    header p  { font-size: 11px; opacity: 0.8; }
+
+    .content { padding: 14px 16px; }
+
+    .btn-primary {
+      width: 100%;
+      padding: 10px;
+      background: #1a5276;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-primary:hover    { background: #154360; }
+    .btn-primary:active   { background: #0e2d42; }
+    .btn-primary:disabled { background: #95a5a6; cursor: not-allowed; }
+
+    .btn-secondary {
+      flex: 1;
+      padding: 7px;
+      background: white;
+      color: #1a5276;
+      border: 1px solid #1a5276;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover    { background: #eaf1f8; }
+    .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-group { display: flex; gap: 8px; margin-top: 10px; }
+
+    #status {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-size: 12px;
+      display: none;
+    }
+    #status.info    { background: #eaf4fb; border-left: 3px solid #1a73e8; color: #1a5276; }
+    #status.success { background: #eafaf1; border-left: 3px solid #27ae60; color: #1e8449; }
+    #status.error   { background: #fdedec; border-left: 3px solid #e74c3c; color: #922b21; }
+    #status.warning { background: #fef9e7; border-left: 3px solid #f39c12; color: #9a7d0a; }
+
+    /* ── Resumo ─────────────────────────────────────── */
+    .resumo {
+      margin-top: 12px;
+      background: white;
+      border-radius: 6px;
+      border: 1px solid #dce3e9;
+      display: none;
+    }
+    .resumo-header {
+      padding: 8px 12px;
+      background: #eaf1f8;
+      border-radius: 6px 6px 0 0;
+      font-weight: 600;
+      font-size: 12px;
+      color: #1a5276;
+      border-bottom: 1px solid #dce3e9;
+    }
+    .resumo-stats {
+      display: flex;
+      padding: 10px 12px;
+      gap: 16px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .stat           { text-align: center; flex: 1; }
+    .stat .num      { font-size: 22px; font-weight: 700; color: #1a5276; }
+    .stat .label    { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* ── Seções (Categorias / Etiquetas) ─────────────── */
+    .secao-titulo {
+      padding: 6px 12px 2px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      border-top: 1px solid #f0f0f0;
+    }
+    .fases-lista {
+      padding: 4px 12px 8px;
+      max-height: 140px;
+      overflow-y: auto;
+    }
+    .fase-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px solid #f5f5f5;
+      font-size: 12px;
+    }
+    .fase-item:last-child { border-bottom: none; }
+    .fase-nome  { text-transform: capitalize; }
+    .fase-badge {
+      background: #eaf1f8;
+      color: #1a5276;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      margin-left: 8px;
+    }
+    .fase-barra {
+      height: 3px;
+      background: #1a73e8;
+      border-radius: 2px;
+      margin-top: 2px;
+      transition: width 0.4s;
+    }
+
+    /* Barra e badge de etiquetas em cor diferente */
+    .etq-barra { background: #8e44ad; }
+    .etq-badge { background: #f5eef8; color: #6c3483; }
+
+    /* Seção de etiquetas oculta por padrão */
+    #secaoEtiquetas { display: none; }
+
+    footer {
+      padding: 8px 16px;
+      text-align: center;
+      font-size: 10px;
+      color: #aaa;
+      border-top: 1px solid #eee;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Painel CoPPEx ───────────────────────────────── */
+    .coppex-section {
+      margin-top: 14px;
+      background: white;
+      border: 1px solid #dce3e9;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .coppex-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: #f0f4f8;
+      border-bottom: 1px solid #dce3e9;
+      cursor: pointer;
+      user-select: none;
+    }
+    .coppex-header-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      font-size: 12px;
+      color: #1a5276;
+    }
+    .coppex-badge-ativa {
+      display: inline-block;
+      background: #d5f5e3;
+      color: #1e8449;
+      border-radius: 8px;
+      padding: 1px 7px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .coppex-badge-inativa {
+      display: inline-block;
+      background: #f0f4f8;
+      color: #95a5a6;
+      border-radius: 8px;
+      padding: 1px 7px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .coppex-chevron {
+      font-size: 10px;
+      color: #888;
+      transition: transform 0.2s;
+    }
+    .coppex-chevron.open { transform: rotate(180deg); }
+    .coppex-body {
+      display: none;
+      padding: 12px;
+    }
+    .coppex-body.open { display: block; }
+    .coppex-field { margin-bottom: 8px; }
+    .coppex-field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 3px;
+    }
+    .coppex-field select {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid #ccd5dd;
+      border-radius: 5px;
+      font-size: 12px;
+      color: #333;
+      background: #fff;
+      cursor: pointer;
+    }
+    .coppex-field select:disabled {
+      background: #f5f7fa;
+      color: #aaa;
+      cursor: default;
+    }
+    .coppex-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .btn-coppex-salvar {
+      flex: 1;
+      padding: 7px;
+      background: #1a5276;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-coppex-salvar:hover { background: #154360; }
+    .btn-coppex-limpar {
+      padding: 7px 12px;
+      background: white;
+      color: #e74c3c;
+      border: 1px solid #e74c3c;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-coppex-limpar:hover { background: #fdedec; }
+    .coppex-config-atual {
+      margin-top: 8px;
+      padding: 6px 8px;
+      background: #eaf1f8;
+      border-radius: 5px;
+      font-size: 11px;
+      color: #1a5276;
+      display: none;
+    }
+
+    /* ── Painel Etiquetas ───────────────────────────────── */
+    .etq-section {
+      margin-top: 14px;
+      background: white;
+      border: 1px solid #dce3e9;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .etq-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: #f5eef8;
+      border-bottom: 1px solid #e8d9f0;
+      cursor: pointer;
+      user-select: none;
+    }
+    .etq-header-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      font-size: 12px;
+      color: #6c3483;
+    }
+    .etq-badge-count {
+      display: inline-block;
+      background: #d7bde2;
+      color: #6c3483;
+      border-radius: 8px;
+      padding: 1px 7px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .etq-chevron {
+      font-size: 10px;
+      color: #888;
+      transition: transform 0.2s;
+    }
+    .etq-chevron.open { transform: rotate(180deg); }
+    .etq-body {
+      display: none;
+      padding: 12px;
+    }
+    .etq-body.open { display: block; }
+
+    /* Lista de regras */
+    .etq-regras-lista { margin-bottom: 10px; }
+    .etq-regra-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 8px;
+      background: #faf5ff;
+      border: 1px solid #e8d9f0;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+    .etq-regra-etq {
+      flex: 1;
+      font-weight: 600;
+      color: #6c3483;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .etq-regra-seta { color: #999; font-size: 11px; flex-shrink: 0; }
+    .etq-regra-dest {
+      flex: 1;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .etq-regra-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      line-height: 1;
+      padding: 2px;
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+    .etq-regra-toggle:hover { opacity: 1; }
+    .etq-regra-del {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #e74c3c;
+      font-size: 13px;
+      line-height: 1;
+      padding: 2px;
+      flex-shrink: 0;
+    }
+    .etq-regra-del:hover { opacity: 0.7; }
+    .etq-regra-inativa { opacity: 0.45; }
+
+    /* Formulário de nova regra */
+    .etq-form {
+      border: 1px dashed #d7bde2;
+      border-radius: 6px;
+      padding: 8px;
+      background: #faf5ff;
+      margin-bottom: 10px;
+      display: none;
+    }
+    .etq-form.open { display: block; }
+    .etq-form-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .etq-form input {
+      flex: 1;
+      padding: 5px 8px;
+      border: 1px solid #ccd5dd;
+      border-radius: 5px;
+      font-size: 12px;
+      color: #333;
+    }
+    .etq-form input::placeholder { color: #aaa; }
+    .etq-form-actions { display: flex; gap: 6px; }
+    .btn-etq-add-confirm {
+      flex: 1;
+      padding: 6px;
+      background: #6c3483;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-etq-add-confirm:hover { background: #5b2c6f; }
+    .btn-etq-cancel {
+      padding: 6px 10px;
+      background: white;
+      color: #666;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .btn-etq-cancel:hover { background: #f5f5f5; }
+
+    .btn-etq-nova-regra {
+      width: 100%;
+      padding: 6px;
+      background: white;
+      color: #6c3483;
+      border: 1px dashed #9b59b6;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 10px;
+      transition: all 0.2s;
+    }
+    .btn-etq-nova-regra:hover { background: #f5eef8; }
+
+    .btn-etq-executar {
+      width: 100%;
+      padding: 8px;
+      background: #8e44ad;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .btn-etq-executar:hover    { background: #7d3c98; }
+    .btn-etq-executar:disabled { background: #95a5a6; cursor: not-allowed; }
+
+    .etq-vazio {
+      text-align: center;
+      color: #aaa;
+      font-size: 12px;
+      padding: 10px 0 4px;
+    }
+
+    /* ── Pipeline display ─────────── */
+    .etq-pipeline-steps { padding: 4px 0 4px 10px; border-left: 2px solid #d7bde2; margin: 4px 0 2px 4px; }
+    .etq-passo { display:flex; align-items:center; gap:5px; padding:2px 0; font-size:11px; }
+    .etq-passo-num { width:14px; height:14px; background:#8e44ad; color:white; border-radius:50%; font-size:9px; font-weight:bold; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .etq-passo-trans { color:#374151; flex:1; }
+    .etq-passo-prox { color:#8e44ad; background:#f5eef8; padding:1px 4px; border-radius:4px; font-size:10px; white-space:nowrap; }
+    .etq-badge-pl { background:#f5eef8; color:#6c3483; padding:1px 5px; border-radius:8px; font-size:9px; font-weight:bold; }
+
+    /* ── Pipeline form steps ──────── */
+    .etq-form-steps-wrap { margin-bottom:6px; }
+    .etq-form-step { display:grid; grid-template-columns:1fr auto 1fr auto; gap:4px; margin-bottom:4px; align-items:center; }
+    .etq-form-step .step-modo { padding:4px 5px; border:1px solid #ccd5dd; border-radius:5px; font-size:11px; background:#fff; cursor:pointer; }
+    .etq-form-step input { padding:5px 7px; border:1px solid #ccd5dd; border-radius:5px; font-size:11px; }
+    .etq-form-step input::placeholder { color:#bbb; }
+    .etq-form-step .del-step { background:none; border:none; cursor:pointer; color:#dc2626; font-size:13px; padding:2px 4px; border-radius:4px; }
+    .etq-form-step .del-step:hover { background:#fee2e2; }
+    .btn-etq-add-step { width:100%; padding:4px; background:transparent; color:#8e44ad; border:1px dashed #c39bd3; border-radius:5px; font-size:11px; cursor:pointer; margin-bottom:6px; }
+    .btn-etq-add-step:hover { background:#f5eef8; }
+    .etq-form-step-hdr { display:grid; grid-template-columns:1fr auto 1fr auto; gap:4px; margin-bottom:2px; }
+    .etq-form-step-hdr span { font-size:10px; color:#888; font-weight:600; padding-left:2px; }
+
+    /* ── Toggle Automação ─────────────────────────────── */
+    .auto-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    .auto-info { flex: 1; }
+    .auto-info .titulo {
+      font-weight: 600;
+      color: #1f2937;
+      font-size: 13px;
+    }
+    .auto-info .estado {
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .auto-info .estado.on  { color: #22c55e; }
+    .auto-info .estado.off { color: #9ca3af; }
+    .switch {
+      position: relative;
+      width: 40px;
+      height: 22px;
+      background: #d1d5db;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.18s;
+      flex-shrink: 0;
+    }
+    .switch.on { background: #22c55e; }
+    .switch::after {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      transition: left 0.18s;
+    }
+    .switch.on::after { left: 20px; }
+
+    .auto-desc {
+      font-size: 11px;
+      color: #6b7280;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    /* ── Agendamentos ─────────────────────────────── */
+    .ag-filtro {
+      flex: 1;
+      padding: 4px 4px;
+      background: #f3f4f6;
+      color: #374151;
+      border: 1px solid #d1d5db;
+      border-radius: 5px;
+      font-size: 11px;
+      font-family: inherit;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .ag-filtro:hover { background: #e5e7eb; }
+    .ag-filtro.ag-filtro-ativo { background: #0d9488; color: #fff; border-color: #0d9488; }
+
+    .ag-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 7px 10px;
+      margin-bottom: 6px;
+      background: #fff;
+      font-size: 12px;
+    }
+    .ag-item-header { display: flex; align-items: center; gap: 6px; }
+    .ag-item-alvo { flex: 1; font-weight: 600; color: #1f2937; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ag-status { padding: 1px 7px; border-radius: 8px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+    .ag-status-aguardando { background: #fef3c7; color: #92400e; }
+    .ag-status-feito      { background: #d1fae5; color: #065f46; }
+    .ag-status-vencido    { background: #fee2e2; color: #991b1b; }
+    .ag-item-meta { margin-top: 3px; color: #6b7280; font-size: 11px; }
+    .ag-item-cancel { background: none; border: none; cursor: pointer; color: #dc2626; font-size: 13px; padding: 2px 4px; flex-shrink: 0; }
+    .ag-item-cancel:hover { opacity: 0.7; }
+    .ag-sel { width:100%; padding:5px 8px; border:1px solid #d1d5db; border-radius:5px; font-size:12px; font-family:inherit; }
+    .ag-inp { width:100%; padding:6px 8px; border:1px solid #d1d5db; border-radius:5px; font-size:12px; font-family:inherit; }
+    .ag-lbl { font-size:11px; font-weight:600; color:#555; display:block; margin:0 0 3px; }
+    .ag-row { margin-bottom:7px; }
+    .ag-tipo-label {
+      display:flex; align-items:center; gap:5px;
+      padding:6px 8px; border-radius:6px; cursor:pointer; font-size:12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">⚖️</div>
+    <div>
+      <h1>PJe Mapeador de Tarefas</h1>
+      <p>Identifica, lista e classifica processos por etiqueta</p>
+    </div>
+  </header>
+
+  <div class="content">
+    <div class="auto-row">
+      <div class="auto-info">
+        <div class="titulo">Automação</div>
+        <div class="estado on" id="autoEstado">Ativa</div>
+      </div>
+      <div class="switch on" id="autoSwitch" role="switch" aria-checked="true" tabindex="0"></div>
+    </div>
+    <div class="auto-desc" id="autoDesc">
+      Quando ativa, o botão flutuante aparece nas páginas do PJe.
+    </div>
+
+    <div class="auto-row">
+      <div class="auto-info">
+        <div class="titulo">Tabela nos autos</div>
+        <div class="estado on" id="tabEstado">Ativa</div>
+      </div>
+      <div class="switch on" id="tabSwitch" role="switch" aria-checked="true" tabindex="0"></div>
+    </div>
+    <div class="auto-desc" id="tabDesc">
+      Nos autos digitais, a barra ganha o botão <b>Tabela</b> — troca a linha do tempo por uma tabela dos documentos.
+    </div>
+
+    <button class="btn-primary" id="btnMapear">
+      <span>🔍</span> Mapear Minhas Tarefas
+    </button>
+
+    <div class="btn-group">
+      <button class="btn-secondary" id="btnJSON"    disabled>⬇ JSON</button>
+      <button class="btn-secondary" id="btnCSV"     disabled>⬇ CSV</button>
+      <button class="btn-secondary" id="btnConsole" disabled>🖥 Console</button>
+    </div>
+
+    <div id="status"></div>
+
+    <div class="resumo" id="resumo">
+      <div class="resumo-header">📊 Resultado do Mapeamento</div>
+
+      <div class="resumo-stats">
+        <div class="stat">
+          <div class="num" id="numTarefas">0</div>
+          <div class="label">Tarefas</div>
+        </div>
+        <div class="stat">
+          <div class="num" id="numProcessos">0</div>
+          <div class="label">Processos</div>
+        </div>
+        <div class="stat">
+          <div class="num" id="numFases">0</div>
+          <div class="label">Categorias</div>
+        </div>
+      </div>
+
+      <!-- Categorias -->
+      <div class="secao-titulo">Categorias</div>
+      <div class="fases-lista" id="fasesLista"></div>
+
+      <!-- Etiquetas (visível apenas quando há dados) -->
+      <div id="secaoEtiquetas">
+        <div class="secao-titulo">Etiquetas</div>
+        <div class="fases-lista" id="etiquetasLista"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Painel CoPPEx ─────────────────────────────────────────────── -->
+  <div class="content" style="padding-top:0">
+    <div class="coppex-section">
+      <div class="coppex-header" id="coppexHeader">
+        <div class="coppex-header-left">
+          📄 Juntada CoPPEx
+          <span id="coppexBadge" class="coppex-badge-inativa">não configurada</span>
+        </div>
+        <span class="coppex-chevron" id="coppexChevron">▼</span>
+      </div>
+      <div class="coppex-body" id="coppexBody">
+        <div class="coppex-field">
+          <label for="selMateria">Matéria</label>
+          <select id="selMateria">
+            <option value="">— selecione a matéria —</option>
+          </select>
+        </div>
+        <div class="coppex-field">
+          <label for="selFase">Fase</label>
+          <select id="selFase" disabled>
+            <option value="">— selecione a fase —</option>
+          </select>
+        </div>
+        <div class="coppex-field">
+          <label for="selModelo">Modelo <span style="font-weight:400;color:#888">(opcional)</span></label>
+          <select id="selModelo" disabled>
+            <option value="">— nenhum fixo (usuário escolhe) —</option>
+          </select>
+        </div>
+        <div class="coppex-actions">
+          <button class="btn-coppex-salvar" id="btnCoppexSalvar">💾 Salvar configuração</button>
+          <button class="btn-coppex-limpar" id="btnCoppexLimpar">✕ Limpar</button>
+        </div>
+        <div class="coppex-config-atual" id="coppexConfigAtual"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Painel Regras de Etiqueta ──────────────────────────────────── -->
+  <div class="content" style="padding-top:0">
+    <div class="etq-section">
+      <div class="etq-header" id="etqHeader">
+        <div class="etq-header-left">
+          🏷️ Regras de Etiqueta
+          <span id="etqBadgeCount" class="etq-badge-count">0 regras</span>
+        </div>
+        <span class="etq-chevron" id="etqChevron">▼</span>
+      </div>
+      <div class="etq-body" id="etqBody">
+
+        <!-- Lista de regras cadastradas -->
+        <div class="etq-regras-lista" id="etqRegraLista">
+          <div class="etq-vazio" id="etqVazio">Nenhuma regra cadastrada.</div>
+        </div>
+
+        <!-- Botão para abrir formulário -->
+        <button class="btn-etq-nova-regra" id="btnEtqNovaRegra">＋ Nova regra</button>
+
+        <!-- Formulário inline de nova regra -->
+        <div class="etq-form" id="etqForm">
+          <div class="etq-form-row">
+            <input type="text" id="etqInputEtiqueta" placeholder="Nome da etiqueta (ex: TRANSITO EM JULGADO)" />
+          </div>
+          <div class="etq-form-row">
+            <input type="text" id="etqInputTarefaInicial" placeholder="Tarefa inicial (onde a automação começa — opcional)" />
+          </div>
+          <div class="etq-form-row">
+            <input type="text" id="etqInputTarefaFinal" placeholder="Navegar após concluir (vazio = painel principal)" />
+          </div>
+          <div class="etq-form-steps-wrap">
+            <div class="etq-form-step-hdr">
+              <span>Transição (modal)</span>
+              <span>Modo</span>
+              <span>Próxima tarefa</span>
+              <span></span>
+            </div>
+            <div id="etqFormSteps">
+              <!-- etapas inseridas pelo JS -->
+            </div>
+          </div>
+          <button class="btn-etq-add-step" id="btnEtqAddStep">＋ Adicionar etapa</button>
+          <div class="etq-form-actions">
+            <button class="btn-etq-add-confirm" id="btnEtqConfirmar">✔ Salvar regra</button>
+            <button class="btn-etq-cancel"      id="btnEtqCancelar">Cancelar</button>
+          </div>
+        </div>
+
+        <!-- Botão executar -->
+        <button class="btn-etq-executar" id="btnEtqExecutar">
+          <span>▶</span> Executar regras nesta página
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Painel Remover Etiquetas ─────────────────────────────────────── -->
+  <div class="content" style="padding-top:0">
+    <div class="etq-section" id="remSection">
+      <div class="etq-header" id="remHeader">
+        <div class="etq-header-left">
+          🗑️ Remover Etiquetas
+          <span id="remBadgeCount" class="etq-badge-count">0 regras</span>
+        </div>
+        <span class="etq-chevron" id="remChevron">▼</span>
+      </div>
+
+      <div class="etq-body" id="remBody">
+        <p style="color:#6b7280;font-size:11px;margin:0 0 10px">
+          Remove automaticamente uma etiqueta de todos os processos de uma tarefa em <strong>Minhas Tarefas</strong>.
+        </p>
+
+        <!-- Lista de regras -->
+        <div id="remRegraLista">
+          <p id="remVazio" style="color:#aaa;font-size:12px;margin:4px 0 10px">Nenhuma regra cadastrada.</p>
+        </div>
+
+        <!-- Formulário nova regra -->
+        <div class="etq-form" id="remForm">
+          <div class="etq-form-row">
+            <input type="text" id="remInputEtiqueta" placeholder="Etiqueta a remover (ex: CoPPEx - Cota)" />
+          </div>
+          <div class="etq-form-row">
+            <input type="text" id="remInputTarefa" placeholder="Tarefa em Minhas Tarefas (ex: Cumprimento de Diligência)" />
+          </div>
+          <div class="etq-form-actions">
+            <button id="btnRemConfirmar" class="btn-etq-ok">✔ Salvar</button>
+            <button id="btnRemCancelar" class="btn-etq-cancel">Cancelar</button>
+          </div>
+        </div>
+
+        <button id="btnRemNovaRegra" class="btn-etq-nova" style="border-color:#c0392b;color:#c0392b">
+          ＋ Nova regra
+        </button>
+
+        <!-- Botão executar -->
+        <button class="btn-etq-executar" id="btnRemExecutar" style="background:#e74c3c;border-color:#c0392b">
+          <span>▶</span> Executar remoções
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Painel Preparar Comunicação ──────────────────────────────────── -->
+  <div class="content" style="padding-top:0">
+    <div class="etq-section" id="prepSection">
+      <div class="etq-header" id="prepHeader">
+        <div class="etq-header-left">
+          📨 Preparar Comunicação
+          <span id="prepBadgeCount" class="etq-badge-count">0 regras</span>
+        </div>
+        <span class="etq-chevron" id="prepChevron">▼</span>
+      </div>
+
+      <div class="etq-body" id="prepBody">
+        <p style="color:#6b7280;font-size:11px;margin:0 0 10px">
+          Preenche automaticamente o formulário de comunicação para processos com a etiqueta indicada em <strong>Minhas Tarefas</strong>.
+        </p>
+
+        <!-- Lista de regras -->
+        <div id="prepRegraLista">
+          <p id="prepVazio" style="color:#aaa;font-size:12px;margin:4px 0 10px">Nenhuma regra cadastrada.</p>
+        </div>
+
+        <!-- Formulário nova regra -->
+        <div class="etq-form" id="prepForm">
+          <div class="etq-form-row">
+            <input type="text" id="prepInputEtiqueta" placeholder="Etiqueta (ex: DILIGÊNCIA)" />
+          </div>
+          <div class="etq-form-row">
+            <input type="text" id="prepInputTarefa" placeholder="Tarefa (ex: Preparar comunicação)" value="Preparar comunicação" />
+          </div>
+          <div class="etq-form-row" style="font-size:12px;gap:10px;display:flex;flex-wrap:wrap">
+            <label><input type="checkbox" id="prepChkAtivo" checked> Polo Ativo</label>
+            <label><input type="checkbox" id="prepChkPassivo"> Polo Passivo</label>
+            <label><input type="checkbox" id="prepChkTerc"> Terceiros</label>
+          </div>
+          <div class="etq-form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <select id="prepSelComun" style="padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px">
+              <option>Citação</option><option>Comunicação</option><option>Edital</option>
+              <option selected>Intimação</option><option>Intimação de Pauta</option>
+            </select>
+            <select id="prepSelMeio" style="padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px">
+              <option selected>Diário Eletrônico</option><option>Sistema</option>
+              <option>Correios</option><option>Central de Mandados</option><option>Pessoalmente</option><option>Mural</option>
+            </select>
+          </div>
+          <div class="etq-form-row" style="display:grid;grid-template-columns:2fr 1fr;gap:6px">
+            <select id="prepSelTipoPrazo" style="padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px">
+              <option selected>dias</option><option>meses</option><option>anos</option>
+              <option>horas</option><option>minutos</option><option>data certa</option>
+            </select>
+            <input type="number" id="prepInputPrazo" min="0" value="3" placeholder="Prazo" style="padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px" />
+          </div>
+          <div class="etq-form-row" style="font-size:12px;display:flex;gap:16px">
+            <label><input type="radio" name="prepInstr" id="prepRadioDP" value="DP" checked> Documento do Processo</label>
+            <label><input type="radio" name="prepInstr" id="prepRadioDN" value="DN"> Documento Novo</label>
+          </div>
+          <div class="etq-form-row" id="prepWrapTipoDoc">
+            <input type="text" id="prepInputTipoDoc" placeholder="Tipo do documento (ex: Decisão)" />
+          </div>
+          <div class="etq-form-row" id="prepWrapModelo" style="display:none">
+            <input type="text" id="prepInputModelo" placeholder="Nome do modelo (ex: CoPPEx - SePP PropPart - intimação)" />
+          </div>
+          <div class="etq-form-actions">
+            <button id="btnPrepConfirmar" class="btn-etq-ok">✔ Salvar</button>
+            <button id="btnPrepCancelar" class="btn-etq-cancel">Cancelar</button>
+          </div>
+        </div>
+
+        <button id="btnPrepNovaRegra" class="btn-etq-nova" style="border-color:#1a6a9a;color:#1a6a9a">
+          ＋ Nova regra
+        </button>
+
+        <!-- Botão executar -->
+        <button class="btn-etq-executar" id="btnPrepExecutar" style="background:#1a6a9a;border-color:#155c87">
+          <span>▶</span> Executar comunicações
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Painel Agendamentos ──────────────────────────────────────────── -->
+  <div class="content" style="padding-top:0">
+    <div class="etq-section" id="agSection">
+      <div class="etq-header" id="agHeader" style="background:#f0fdfa;border-bottom-color:#99f6e4">
+        <div class="etq-header-left" style="color:#0f766e">
+          🗓️ Agendamentos
+          <span id="agBadgeCount" class="etq-badge-count" style="background:#ccfbf1;color:#0f766e">0</span>
+        </div>
+        <span class="etq-chevron" id="agChevron">▼</span>
+      </div>
+
+      <div class="etq-body" id="agBody">
+        <p style="color:#6b7280;font-size:11px;margin:0 0 10px">
+          Programa ações para serem executadas em data/hora específica ou ao abrir o PJe.
+        </p>
+
+        <!-- Formulário de novo agendamento -->
+        <div id="agFormWrap" style="border:1px dashed #99f6e4;border-radius:6px;padding:10px;background:#f0fdfa;margin-bottom:10px">
+
+          <!-- Ação -->
+          <div class="ag-row">
+            <label class="ag-lbl">Ação</label>
+            <select id="agSelAcao" class="ag-sel">
+              <option value="mover">Movimentar</option>
+              <option value="comunicar">Preparar Comunicação</option>
+              <option value="mover+comunicar">Movimentar + Comunicação</option>
+            </select>
+          </div>
+
+          <!-- Regra de movimentação -->
+          <div class="ag-row" id="agWrapRegra">
+            <label class="ag-lbl">Regra de movimentação</label>
+            <select id="agSelRegra" class="ag-sel">
+              <option value="">— selecione —</option>
+            </select>
+          </div>
+
+          <!-- Regra de comunicação -->
+          <div class="ag-row" id="agWrapRegraComun" style="display:none">
+            <label class="ag-lbl">Regra de comunicação</label>
+            <select id="agSelRegraComun" class="ag-sel">
+              <option value="">— selecione —</option>
+            </select>
+          </div>
+
+          <!-- CNJ específico (opcional) -->
+          <div class="ag-row">
+            <label class="ag-lbl">CNJ específico <span style="font-weight:400;color:#888">(opcional — vazio = todos da etiqueta)</span></label>
+            <input id="agInputCnj" type="text" class="ag-inp" placeholder="0000001-11.2024.8.26.0000">
+          </div>
+
+          <!-- Tipo de disparo -->
+          <div class="ag-row">
+            <label class="ag-lbl">Disparo</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+              <label class="ag-tipo-label" style="background:#f0fdf4;border:2px solid #86efac">
+                <input type="radio" name="agTipo" id="agTipo0" value="0" checked>
+                ⏰ Data/hora exata
+              </label>
+              <label class="ag-tipo-label" id="agLabelTipo1" style="background:#f0f9ff;border:1px solid #bae6fd">
+                <input type="radio" name="agTipo" id="agTipo1" value="1">
+                📲 Ao abrir PJe
+              </label>
+            </div>
+          </div>
+
+          <!-- Data e Hora -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
+            <div>
+              <label class="ag-lbl">Data <span style="color:#e53e3e">*</span></label>
+              <input id="agInputData" type="date" class="ag-inp">
+            </div>
+            <div>
+              <label class="ag-lbl" id="agHoraLabel">Hora <span id="agHoraOpc" style="font-weight:400;color:#888">(opcional)</span></label>
+              <input id="agInputHora" type="time" class="ag-inp">
+            </div>
+          </div>
+
+          <button id="btnAgAgendar"
+            style="width:100%;padding:8px;background:#0d9488;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">
+            + Agendar
+          </button>
+        </div>
+
+        <!-- Filtro de status -->
+        <div style="display:flex;gap:4px;margin-bottom:8px">
+          <button class="ag-filtro ag-filtro-ativo" data-ag-filtro="todos">Todos</button>
+          <button class="ag-filtro" data-ag-filtro="aguardando">⏳ Aguardando</button>
+          <button class="ag-filtro" data-ag-filtro="feito">✅ Feito</button>
+          <button class="ag-filtro" data-ag-filtro="vencido">⚠️ Vencido</button>
+        </div>
+
+        <!-- Lista -->
+        <div id="agLista">
+          <p id="agVazio" style="color:#aaa;font-size:12px;text-align:center;padding:8px 0">Nenhum agendamento cadastrado.</p>
+        </div>
+
+        <!-- Paginação -->
+        <div id="agPaginacao" style="display:none;align-items:center;justify-content:center;gap:8px;margin-top:8px">
+          <button id="btnAgPrev" style="padding:3px 10px;border:1px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:12px">‹</button>
+          <span id="agPgInfo" style="font-size:11px;color:#555">1 / 1</span>
+          <button id="btnAgNext" style="padding:3px 10px;border:1px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:12px">›</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>PJe Mapeador v5.0 — Uso interno</footer>
+
+  <script src="data-juntada.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
